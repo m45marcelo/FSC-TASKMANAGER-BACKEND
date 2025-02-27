@@ -1,5 +1,6 @@
+const { default: mongoose } = require('mongoose');
 const { notAllowedFieldsToUpdateError } = require('../errors/general.errors');
-const notFundError = require('../errors/mongodb.errors');
+const { notFundError, objectIdCastError } = require('../errors/mongodb.errors');
 
 const TaskModel = require('../models/task.model');
 
@@ -30,7 +31,8 @@ class TaskController {
     
             return this.res.status(200).send(task);
         } catch (error) {
-            this.res.status(500).send(error.message);
+            if(error instanceof mongoose.Error.CastError)
+            return objectIdCastError(this.res)
         }
     }
 
@@ -50,8 +52,6 @@ class TaskController {
             const taskData = this.req.body;
     
             const taskToUpdate = await TaskModel.findById(taskId);
-            console.log(taskToUpdate)
-            console.log(taskData)
             if (!taskToUpdate) {
                 return notFundError(this.res)
             }
@@ -70,7 +70,9 @@ class TaskController {
     
             this.res.status(200).send(taskToUpdate);
         } catch (error) {
-            return this.res.status(500).send(error.message);
+            if(error instanceof mongoose.Error.CastError){
+                return notFundError(this.res)
+            }
         }
     }
 
