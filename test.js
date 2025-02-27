@@ -1,12 +1,16 @@
-const tarefa = {
-    tarefa1: "Aprender react"
+class Calculadora{
+    constructor(a, b){
+        this.a = a;
+        this.b = b;
+    }
+
+    somar(){
+        return this.a + this.b
+    }
 }
 
-
-const novaTarefa = {
-    tarefa1: "Aprender Programação"
+function resultado(){
+    return new Calculadora(6,2).somar()
 }
 
-tarefa['tarefa1'] = novaTarefa['tarefa1']
-
-console.log(tarefa)
+console.log(resultado())
