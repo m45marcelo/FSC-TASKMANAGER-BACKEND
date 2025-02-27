@@ -6,7 +6,7 @@ const router = express.Router();
 
 // 📌 Rota para obter todas as tarefas
 router.get('/', async (req, res) => {
-    return new TaskController(req, res).getTasks();
+    return new TaskController(req, res).getAllTasks();
 });
 
 // 📌 Rota para obter uma tarefa pelo ID

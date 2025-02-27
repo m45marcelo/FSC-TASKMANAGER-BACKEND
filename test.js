@@ -1,16 +1,9 @@
-class Calculadora{
-    constructor(a, b){
-        this.a = a;
-        this.b = b;
-    }
-
-    somar(){
-        return this.a + this.b
+const controller = {
+    async test(numero){
+        setTimeout(()=>{
+            console.log("Resultado Função")
+        },numero)
     }
 }
 
-function resultado(){
-    return new Calculadora(6,2).somar()
-}
-
-console.log(resultado())
+controller.test(3000)

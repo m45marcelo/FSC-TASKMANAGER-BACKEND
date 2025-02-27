@@ -1,3 +1,4 @@
+const notFundError = require('../errors/mongodb.errors');
 const TaskModel = require('../models/task.model');
 
 class TaskController {
@@ -6,7 +7,7 @@ class TaskController {
         this.res = res;
     }
 
-    async getTasks() {
+    async getAllTasks() {
         try {
             const tasks = await TaskModel.find({});
             this.res.status(200).send(tasks);
@@ -19,10 +20,11 @@ class TaskController {
         try {
             const taskId = this.req.params.id;
             const task = await TaskModel.findById(taskId);
-    
-            if (!task) {
-                return this.res.status(404).send('Essa tarefa não foi encontrada.');
+
+            if(!task) {
+                return notFundError(this.res)
             }
+    
     
             return this.res.status(200).send(task);
         } catch (error) {
@@ -49,7 +51,7 @@ class TaskController {
             console.log(taskToUpdate)
             console.log(taskData)
             if (!taskToUpdate) {
-                return this.res.status(404).send("Essa tarefa não foi encontrada.");
+                return notFundError(this.res)
             }
     
             const allowedUpdate = ["description"]; // Campos permitidos para edição
@@ -76,7 +78,7 @@ class TaskController {
     
             const taskToDelete = await TaskModel.findById(taskId);
             if (!taskToDelete) {
-                return this.res.status(404).send("Essa tarefa não foi encontrada.");
+                return notFundError(this.res)
             }
     
             const deletedTask = await TaskModel.findByIdAndDelete(taskId);
